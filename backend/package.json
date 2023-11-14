@@ -1,0 +1,15 @@
+{
+  "name": "cloudnotebook",
+  "version": "1.0.0",
+  "description": "use to add and retrive notes remotely from cloud",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  }
+}
