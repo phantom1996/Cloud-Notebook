@@ -49,4 +49,42 @@ router.post('/addnotes', fetchuser, [
         res.status(500).json({error : "Internal Server Error"})
     }
 })
+
+
+//Updating notes login required  using /updatenote:id
+router.put('/updatenote/:id', fetchuser ,async (req, res) => {
+    try {
+        const userID = req.user.id
+        const {title , description, tag} = req.body
+
+        const note_Exist = await notes.findById(req.params.id)
+        if(!note_Exist){
+            return req.status(400).json({error : "Please Update a valid note"})
+        }
+        const note_belongtoUser = note_Exist.user.toString()
+        if(userID !== note_belongtoUser){
+            return req.status(401).json({error : "UnAuthorized Access"})
+        }
+
+        const newnote = {}
+
+        if(title){
+            newnote.title = title
+        }
+        if(description){
+            newnote.description = description
+        }
+        if(tag){
+            newnote.tag =tag   
+        }
+
+        const updatedNote = await notes.findByIdAndUpdate(req.params.id , {$set : newnote}, {new:true}) 
+        res.json({updatedNote})
+  
+    } catch (error) {
+        res.status(500).json({error : "Internal Server Error"})
+    }
+})
+
+
 module.exports = router
